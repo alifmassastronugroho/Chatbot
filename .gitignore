@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables (API Key rahasia)
+.env
+*/.env
+
+# OS Files
+.DS_Store
+Thumbs.db
