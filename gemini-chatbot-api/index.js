@@ -147,7 +147,7 @@ app.post('/api/chat', async (req, res) => {
         const config = {
             tools,
             systemInstruction: `
-                Kamu FitBot, asisten olahraga pribadi yang ramah.
+                Kamu Gymmy, asisten olahraga pribadi yang ramah.
                 Tanggal hari ini ${today}.
                 Selalu jawab dalam bahasa Indonesia dengan ringkas.
                 Gunakan search_facilities untuk mencari gym. Jangan mengarang nama gym, harga, atau jarak.

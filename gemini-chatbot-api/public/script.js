@@ -139,7 +139,7 @@ function initInitialChat() {
 
   appendTimestamp(getFormattedTimestamp());
 
-  const greetingText = "Halo, saya FitBot! 👋 Saya asisten olahraga pribadi Anda. Ada yang bisa saya bantu?";
+  const greetingText = "Halo, saya Gymmy! 👋 Saya asisten olahraga pribadi Anda. Ada yang bisa saya bantu?";
   const botRow = appendBotMessage(greetingText);
 
   const chipsContainer = document.createElement('div');
@@ -251,15 +251,9 @@ function appendBotMessage(markdownText) {
   const avatar = document.createElement('div');
   avatar.className = 'bot-mini-avatar';
   avatar.innerHTML = `
-    <svg viewBox="0 0 36 36" fill="none">
-      <path d="M18 5V9" stroke="#007aff" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="18" cy="4" r="2" fill="#007aff"/>
-      <rect x="7" y="9" width="22" height="18" rx="7" fill="#e1f0ff" stroke="#007aff" stroke-width="2"/>
-      <rect x="4" y="15" width="3" height="6" rx="1.5" fill="#007aff"/>
-      <rect x="29" y="15" width="3" height="6" rx="1.5" fill="#007aff"/>
-      <circle cx="13.5" cy="16.5" r="2" fill="#007aff"/>
-      <circle cx="22.5" cy="16.5" r="2" fill="#007aff"/>
-      <path d="M14 22H22" stroke="#007aff" stroke-width="2" stroke-linecap="round"/>
+    <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+      <path d="M11 18h14" stroke="#007aff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M8 13v10M5 15v6M28 13v10M31 15v6" stroke="#007aff" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
   `;
 
@@ -286,12 +280,9 @@ function appendTypingIndicator() {
   const avatar = document.createElement('div');
   avatar.className = 'bot-mini-avatar';
   avatar.innerHTML = `
-    <svg viewBox="0 0 36 36" fill="none">
-      <path d="M18 5V9" stroke="#007aff" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="18" cy="4" r="2" fill="#007aff"/>
-      <rect x="7" y="9" width="22" height="18" rx="7" fill="#e1f0ff" stroke="#007aff" stroke-width="2"/>
-      <circle cx="13.5" cy="16.5" r="2" fill="#007aff"/>
-      <circle cx="22.5" cy="16.5" r="2" fill="#007aff"/>
+    <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+      <path d="M11 18h14" stroke="#007aff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M8 13v10M5 15v6M28 13v10M31 15v6" stroke="#007aff" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
   `;
 
@@ -484,7 +475,7 @@ async function handleUserSubmit(userText) {
   userInput.focus();
 
   if (!message) {
-    appendBotMessage('Lampiran hanya ditampilkan di chat dan belum dikirim ke FitBot untuk dianalisis.');
+    appendBotMessage('Lampiran hanya ditampilkan di chat dan belum dikirim ke Gymmy untuk dianalisis.');
     return;
   }
 
@@ -547,7 +538,7 @@ async function handleUserSubmit(userText) {
     removeTypingIndicator();
     console.error('Chat error:', error);
     const errorMessage = error instanceof TypeError
-      ? 'Tidak dapat terhubung ke FitBot. Silakan coba lagi.'
+      ? 'Tidak dapat terhubung ke Gymmy. Silakan coba lagi.'
       : error.message || 'Terjadi kesalahan. Silakan coba lagi.';
     appendBotMessage(`⚠️ ${errorMessage}`);
   } finally {
@@ -667,7 +658,7 @@ function setupEventListeners() {
   themeToggleBtn.addEventListener('click', toggleTheme);
 
   backBtn.addEventListener('click', () => {
-    if (confirm('Mulai percakapan baru dengan FitBot?')) {
+    if (confirm('Mulai percakapan baru dengan Gymmy?')) {
       initInitialChat();
     }
   });
