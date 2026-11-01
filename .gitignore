@@ -1,11 +1,5 @@
-# Dependencies
-node_modules/
-*/node_modules/
-
-# Environment variables (API Key rahasia)
+node_modules
 .env
-*/.env
-
-# OS Files
 .DS_Store
 Thumbs.db
+package-lock.json
