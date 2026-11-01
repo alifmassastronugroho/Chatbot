@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="docs/logo.svg" alt="Logo Gymmy" width="120">
-</p>
 
 <h1 align="center">Gymmy</h1>
 
@@ -10,7 +7,6 @@ Gymmy adalah asisten olahraga pribadi berbasis chat. Pengguna mencari gym terdek
 
 Status: prototipe. Fitur chat dan pencarian gym sudah jalan. Peta, layar Home dan Statistics, serta fitur pola makan masih rencana. README ini memisahkan keduanya dengan jelas.
 
-![Tampilan Gymmy](docs/ui-preview.png)
 
 ## Masalah yang ingin diselesaikan
 
@@ -25,7 +21,7 @@ Orang yang ingin mulai berolahraga sering berhenti di langkah awal. Mereka tidak
 
 ## Fitur
 
-### Sudah ada (prototipe)
+### Prototipe
 
 1. Antarmuka chat dengan mode terang dan gelap, untuk layar mobile dan desktop.
 2. Server Express dengan satu endpoint chat.
