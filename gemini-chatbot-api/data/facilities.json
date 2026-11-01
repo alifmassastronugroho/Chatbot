@@ -1,0 +1,32 @@
+[
+  {
+    "id": "gym-001",
+    "name": "Sanset Club - Herbalife Nutrition",
+    "address": "Jl. Raya Pasir Putih, RT.05/RW.01, Pasir Putih, Kec. Sawangan, Kota Depok, Jawa Barat 16519",
+    "lat": -6.1760,
+    "lng": 106.8280,
+    "price": "Rp 20.000 / masuk sehari",
+    "hours": "06:00-22:00",
+    "facilities": ["Gym", "SPA"]
+  },
+  {
+    "id": "gym-002",
+    "name": "FIT HUB Depok Town Square (Detos)",
+    "address": "Depok Town Square, Jl. Margonda No.1 Lt 2 mezanine, Kemiri Muka, Kecamatan Beji, Kota Depok, Jawa Barat 16424",
+    "lat": -6.1790,
+    "lng": 106.8300,
+    "price": "Rp 40.000 / masuk sehari",
+    "hours": "05:00-23:00",
+    "facilities": ["Gym"]
+  },
+  {
+    "id": "gym-003",
+    "name": "Central GYM",
+    "address": "Jalan Muchtar Raya RT 03 RW 07 Kelurahan Sawangan Baru Kecamatan Sawangan, Sawangan Baru, Depok, Kota Depok, Jawa Barat 16511",
+    "lat": -6.1730,
+    "lng": 106.8250,
+    "price": "Rp 25.000 / masuk sehari",
+    "hours": "08:00-22:00",
+    "facilities": ["Gym", "Pool", "SPA"]
+  }
+]
