@@ -5,7 +5,7 @@
 
 Gymmy adalah asisten olahraga pribadi berbasis chat. Pengguna mencari gym terdekat, memesan kunjungan, menyusun jadwal latihan, dan mengatur pola makan lewat satu percakapan.
 
-Status: prototipe. Fitur chat dan pencarian gym sudah jalan. Peta, layar Home dan Statistics, serta fitur pola makan masih rencana. README ini memisahkan keduanya dengan jelas.
+Status: prototipe. Fitur chat dan pencarian gym sudah jalan. Peta, layar Home dan Statistics, serta fitur pola makan masih rencana.
 
 
 ## Masalah yang ingin diselesaikan
