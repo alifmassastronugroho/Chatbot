@@ -7,7 +7,7 @@ const app = express();
 const upload = multer();
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-const GEMINI_MODEL = 'gemini-3.5-flash-lite';
+const GEMINI_MODEL = 'gemini-3.1-flash-lite';
 
 app.use(express.json());
 

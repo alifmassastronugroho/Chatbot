@@ -582,6 +582,26 @@ body {
   margin-bottom: 4px;
 }
 
+.grounding-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid currentColor;
+  font-size: 12px;
+}
+
+.grounding-sources span {
+  flex-basis: 100%;
+  font-weight: 600;
+}
+
+.grounding-sources a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 
 
 
