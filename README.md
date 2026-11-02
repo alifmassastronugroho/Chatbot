@@ -1,16 +1,14 @@
+# Gymmy
 
-<h1 align="center">Gymmy</h1>
+Asisten olahraga pribadi berbasis chat
 
-<p align="center">Asisten olahraga pribadi berbasis chat</p>
+Gymmy adalah asisten olahraga berbasis chat. Pengguna mencari gym di mana saja lewat Google Maps, membandingkan pilihan, dan menyusun jadwal latihan dalam satu percakapan.
 
-Gymmy adalah asisten olahraga pribadi berbasis chat. Pengguna mencari gym terdekat, memesan kunjungan, menyusun jadwal latihan, dan mengatur pola makan lewat satu percakapan.
-
-Status: prototipe. Fitur chat dan pencarian gym sudah jalan. Peta, layar Home dan Statistics, serta fitur pola makan masih rencana.
-
+Status: prototipe. Chat, pencarian gym lewat Google Maps, dan saran jadwal latihan sudah jalan. Peta di antarmuka, layar Home dan Statistics, serta fitur pola makan masih rencana.
 
 ## Masalah yang ingin diselesaikan
 
-Orang yang ingin mulai berolahraga sering berhenti di langkah awal. Mereka tidak tahu gym mana yang dekat, berapa harganya, bagaimana menyusun latihan, dan berapa banyak yang harus dimakan. Gymmy menjawab semuanya di satu tempat.
+Orang yang ingin mulai berolahraga sering berhenti di langkah awal. Mereka tidak tahu gym mana yang dekat, bagaimana menyusun latihan, dan berapa banyak yang harus dimakan. Gymmy menjawab semuanya di satu tempat.
 
 ## Target pengguna
 
@@ -21,47 +19,50 @@ Orang yang ingin mulai berolahraga sering berhenti di langkah awal. Mereka tidak
 
 ## Fitur
 
-### Prototipe
+### Sudah ada
 
 1. Antarmuka chat dengan mode terang dan gelap, untuk layar mobile dan desktop.
 2. Server Express dengan satu endpoint chat.
-3. Gemini sebagai pemahaman bahasa, memakai function calling. Model memilih alat yang tepat, server yang menjalankannya.
-4. Pencarian fasilitas terdekat. Server menghitung jarak dari lokasi pengguna ke tiap gym, lalu mengurutkannya.
-5. Filter fasilitas: Gym, SPA, dan Pool.
-6. Tombol "opsi lain" yang tidak mengulang gym yang sudah tampil.
-7. Pemesanan kunjungan lewat chat.
-8. Saran latihan singkat dan jawaban seputar kebugaran dari Gemini.
-9. Balasan mengikuti bahasa pengguna.
+3. Pencarian gym lewat Grounding with Google Maps di Gemini API. Pengguna bisa menyebut nama tempat atau area di seluruh dunia. Jawaban memuat alamat, rating, jam buka, dan rute dari Google Maps.
+4. Tautan sumber Google Maps untuk setiap tempat yang direkomendasikan.
+5. Lokasi pengguna dari browser dikirim ke server supaya hasil dekat dengan pengguna. Lokasi bisa diganti manual lewat menu dengan koordinat.
+6. Saran jadwal workout dan rencana kunjungan sesuai tujuan, tingkat kebugaran, dan waktu luang pengguna. Jadwal berupa teks.
+7. Balasan dalam bahasa Indonesia.
+8. Input suara lewat fitur pengenalan suara browser. Tersedia di browser yang mendukungnya.
+9. Pembatasan request: 10 request per menit untuk setiap IP.
+10. Validasi input: pesan maksimal 4000 karakter, riwayat yang dipakai 20 pesan terakhir.
+11. Pesan error mentah dari server tidak tampil ke pengguna.
+12. Tombol untuk memulai percakapan baru.
 
 ### Direncanakan
 
 Semua fitur di bawah ini belum dibuat.
 
-**Peta**
+Peta
 
-1. Gym terdekat di peta, lengkap dengan jarak dan arah ke lokasi.
+1. Gym terdekat tampil di peta di dalam antarmuka, lengkap dengan jarak. Saat ini Gymmy hanya memberi tautan ke Google Maps.
 
-**Chat**
+Chat
 
-1. Input suara dan lampiran foto.
+1. Lampiran foto yang benar-benar dikirim dan dianalisis. Saat ini lampiran hanya tampil di chat.
 
-**Home**
+Home
 
-1. Upcoming: jadwal workout dan booking.
-2. Gyms near you: jam buka, jarak, dan rating. Saat ini baru ada di chat.
+1. Upcoming: jadwal workout dan kunjungan.
+2. Gyms near you: jam buka, jarak, dan rating.
 3. Activities mingguan.
 
-**Statistics**
+Statistics
 
 1. Kalender mingguan.
 2. Overview: kalori terbakar, total waktu, dan jumlah latihan.
 3. Daily progress: tidur, kalori, dan langkah.
 
-**Workout**
+Workout
 
 1. Jadwal latihan terstruktur dan pengingat.
 
-**Pola makan**
+Pola makan
 
 1. Kebutuhan kalori harian.
 2. Target protein, karbohidrat, dan lemak.
@@ -69,7 +70,7 @@ Semua fitur di bawah ini belum dibuat.
 4. Catatan minum dan target air harian.
 5. Ringkasan gizi harian dan saran menu.
 
-**Navigasi**
+Navigasi
 
 1. Home, Search, Statistics, dan Profile.
 
@@ -106,50 +107,31 @@ Perhitungan angka dilakukan oleh server, bukan oleh Gemini. Gemini hanya memaham
 3. `log_water`: simpan jumlah air yang diminum.
 4. `get_daily_summary`: ringkasan kalori, makro, dan air hari ini.
 
-Semua ini belum dibuat.
-
-## Peta dan gym terdekat (rencana)
-
-Pencarian sekarang memakai data manual. Rencananya, pengguna melihat gym di peta dan membuka arah ke lokasinya.
-
-1. Ambil lokasi pengguna dari browser, dengan izin pengguna.
-2. Tampilkan gym sebagai penanda di peta lengkap dengan jarak.
-3. Ambil data tempat dari layanan peta, lalu gabungkan dengan data manual untuk harga.
-4. Tambah tombol arah ke gym lewat aplikasi peta.
-5. Tambah filter jarak, harga, jam buka, rating, dan fasilitas.
-
-Pilihan layanan peta. Keputusan diambil sebelum tahap ini mulai.
-
-1. Google Maps Platform. Data lengkap, termasuk rating dan jam buka. Perlu akun billing, jadi cek harga terbaru dulu.
-2. OpenStreetMap dengan Leaflet. Gratis, tapi data gym di Indonesia kurang lengkap, dan harga atau jam buka sering kosong.
+Server sekarang belum memakai function calling. Sebelum tahap ini mulai, cek apakah function calling bisa dipakai bersama Grounding with Google Maps dalam satu permintaan. Jika tidak bisa, pisahkan menjadi dua alur.
 
 ## Batasan sekarang
 
-1. Data gym diisi manual di `gemini-chatbot-api/data/facilities.json`. Belum ada sumber data luar.
-2. Booking tersimpan di memori server. Datanya hilang saat server restart.
-3. Booking belum terhubung ke gym mana pun. Gym tidak menerima atau mengonfirmasi pesanan.
-4. Server belum mengecek jam buka saat booking.
-5. Kuota API Gemini paket gratis kecil. Satu pesan pencarian memakai sampai 2 request.
-6. Belum ada autentikasi, pembatasan request, dan pengujian otomatis.
-7. Jadwal workout masih berupa teks bebas dari Gemini, belum terstruktur.
-8. Data tidur dan langkah tidak bisa dibaca oleh web biasa. Itu butuh aplikasi mobile yang terhubung ke Apple Health atau Health Connect di Android. Pada awalnya pengguna mengisinya manual.
+1. Gymmy belum bisa memesan kunjungan. Tidak ada fitur booking di server, dan tidak ada kerja sama dengan gym. Jadwal dan rencana kunjungan hanya saran.
+2. Gymmy tidak boleh mengarang harga, jarak, rating, atau jam buka. Jika Google Maps tidak memuat satu informasi, Gymmy tidak menyebutkannya.
+3. Peta belum tampil di antarmuka. Pengguna membuka tautan Google Maps.
+4. Pembatasan request tersimpan di memori server dan dihitung per IP. Hitungannya reset saat server restart. Jika server berjalan di belakang proxy, atur `trust proxy` di Express supaya IP pengguna terbaca benar.
+5. Kuota Gemini paket gratis kecil. Grounding with Google Maps punya kuota dan biaya sendiri. Cek halaman harga Gemini API sebelum dipakai ramai.
+6. Riwayat percakapan hanya ada di browser dan hilang saat halaman dimuat ulang.
+7. Kode antarmuka untuk kartu fasilitas, modal pemesanan, dan quick reply masih ada di `public/script.js`. Server tidak lagi mengirim data untuk bagian itu, jadi bagian tersebut tidak muncul. Kode ini perlu dibersihkan atau dipakai lagi.
+8. Belum ada autentikasi dan pengujian otomatis.
+9. Data tidur dan langkah tidak bisa dibaca oleh web biasa. Itu butuh aplikasi mobile yang terhubung ke Apple Health atau Health Connect di Android. Pada awalnya pengguna mengisinya manual.
 
 ## Cara kerja
 
 ```
-Pengguna -> Frontend -> POST /api/chat -> Gemini
-                                             |
-                           memanggil alat (function calling)
-                                             |
-                          search_facilities / book_visit
-                                             |
-                          Server membaca data gym, menghitung jarak,
-                          menyimpan booking
-                                             |
-                  Respons: teks balasan + kartu + quick reply
+Pengguna -> Frontend -> POST /api/chat -> Gemini + Google Maps Grounding
+                                                   |
+                                  Gemini mencari tempat lewat Google Maps
+                                                   |
+                              Respons: teks balasan + daftar sumber Maps
 ```
 
-Gemini tidak membuat data gym. Semua nama, jarak, dan harga berasal dari data milik server.
+Gemini tidak membuat data gym dari ingatannya. Alamat, rating, dan jam buka berasal dari Google Maps. Server hanya meneruskan percakapan, lokasi, dan hasil grounding.
 
 ## Struktur folder
 
@@ -157,29 +139,27 @@ Gemini tidak membuat data gym. Semua nama, jarak, dan harga berasal dari data mi
 Chatbot/
   gemini-chatbot-api/    Backend dan frontend yang dipakai sekarang
     index.js             Server Express dan logika chatbot
-    data/facilities.json Data gym
-    public/              Antarmuka chat
-  gemini-flash-api/      Percobaan awal
-  docs/                  Logo dan gambar untuk README
-    logo.svg
-    ui-preview.png
+    package.json
+    public/              Antarmuka chat (index.html, style.css, script.js)
+  gemini-flash-api/      Percobaan awal: endpoint teks, gambar, dokumen, dan audio
   .postman/              Koleksi Postman untuk menguji API
+  postman/globals/       Variabel global Postman
 ```
 
 ## Menjalankan di komputer sendiri
 
-Syarat: Node.js 18 atau lebih baru, dan kunci API dari Google AI Studio.
+Syarat: Node.js 20 atau lebih baru, dan kunci API dari Google AI Studio.
 
 1. Clone repo dan masuk ke folder backend.
 
-```bash
+```
 git clone https://github.com/alifmassastronugroho/Chatbot.git
 cd Chatbot/gemini-chatbot-api
 ```
 
 2. Pasang dependensi.
 
-```bash
+```
 npm install
 ```
 
@@ -187,25 +167,29 @@ npm install
 
 ```
 GEMINI_API_KEY=isi_kunci_kamu
-GEMINI_MODEL=isi_nama_model
+GEMINI_MODEL=gemini-3.1-flash-lite
 PORT=3000
+CLIENT_ORIGIN=
 ```
 
-Pastikan `index.js` membaca model dari `.env`:
+Keterangan:
 
-```js
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'isi_nama_model';
-```
+1. `GEMINI_API_KEY`: wajib.
+2. `GEMINI_MODEL`: opsional. Nilai bawaan `gemini-3.1-flash-lite`. Pastikan model yang kamu pilih mendukung Grounding with Google Maps.
+3. `PORT`: opsional. Nilai bawaan 3000.
+4. `CLIENT_ORIGIN`: opsional. Isi hanya jika frontend dibuka dari alamat lain. Tanpa isi, server menolak permintaan lintas origin.
 
 4. Jalankan server.
 
-```bash
-node index.js
 ```
+npm start
+```
+
+Untuk mode pengembangan yang memuat ulang otomatis, pakai `npm run dev`.
 
 5. Buka `http://localhost:3000`.
 
-Keamanan: jangan pernah menulis kunci API di kode atau meng-commit file `.env`. Pastikan `.env` ada di `.gitignore`. Jika kunci pernah terlihat di tempat publik, hapus kunci itu di Google AI Studio dan buat yang baru.
+Keamanan: jangan pernah menulis kunci API di kode atau meng-commit file `.env`. File `.env` sudah ada di `.gitignore`. Jika kunci pernah terlihat di tempat publik, hapus kunci itu di Google AI Studio dan buat yang baru.
 
 ## API
 
@@ -213,84 +197,62 @@ Keamanan: jangan pernah menulis kunci API di kode atau meng-commit file `.env`. 
 
 Permintaan:
 
-```json
+```
 {
   "conversation": [
-    { "role": "user", "text": "Show me gyms nearby" }
+    { "role": "user", "text": "Cari gym di Pamulang" }
   ],
-  "location": { "lat": -6.1754, "lng": 106.8272 },
-  "shownIds": ["gym-001"]
+  "location": { "lat": -6.3400, "lng": 106.7400 }
 }
 ```
 
 Keterangan:
 
-1. `conversation`: riwayat pesan. `role` hanya boleh `user` atau `model`. Pesan terakhir harus dari `user`. Server hanya memakai 20 pesan terakhir.
-2. `location`: opsional. Tanpa lokasi, Gymmy meminta pengguna mengaktifkan lokasi sebelum mencari gym.
-3. `shownIds`: opsional. Berisi id gym yang sudah tampil, dipakai untuk "opsi lain".
+1. `conversation`: riwayat pesan. `role` hanya boleh `user` atau `model`. Pesan terakhir harus dari `user` dan maksimal 4000 karakter. Server hanya memakai 20 pesan terakhir.
+2. `location`: opsional. Berisi `lat` dan `lng` berupa angka. Tanpa lokasi, Gymmy menanyakan area atau kota kepada pengguna.
 
 Respons sukses:
 
-```json
+```
 {
-  "reply": "Ini gym terdekat dari kamu.",
-  "cards": [
-    {
-      "type": "facility",
-      "id": "gym-001",
-      "name": "BodyWorks",
-      "distance": 250,
-      "price": "Rp 50.000 / masuk sehari",
-      "hours": "06:00-22:00",
-      "facilities": ["Gym", "SPA", "Pool"]
-    }
-  ],
-  "quickReplies": ["Show me other options", "Book me a visit in a gym"]
+  "result": "Ini beberapa gym di sekitar Pamulang ...",
+  "reply": "Ini beberapa gym di sekitar Pamulang ...",
+  "sources": [
+    { "title": "Nama Gym", "url": "https://maps.google.com/..." }
+  ]
 }
 ```
 
-Jarak dalam meter. Kartu bertipe `booking` muncul setelah pemesanan berhasil.
+`result` dan `reply` berisi teks yang sama. `sources` berisi tautan Google Maps dari hasil grounding.
 
 Kode error:
 
 1. `400`: input tidak valid.
-2. `429`: kuota Gemini habis.
+2. `429`: terlalu banyak request dari satu IP, atau kuota Gemini habis. Pembatasan request mengirim `code: "RATE_LIMITED"` dan header `Retry-After`.
 3. `500`: kesalahan server.
-
-## Menambah data gym
-
-Buka `gemini-chatbot-api/data/facilities.json` dan tambah satu entri.
-
-```json
-{
-  "id": "gym-004",
-  "name": "Nama Gym",
-  "address": "Alamat singkat",
-  "lat": -6.3400,
-  "lng": 106.7400,
-  "price": "Rp 30.000 / masuk sehari",
-  "hours": "06:00-22:00",
-  "facilities": ["Gym", "Pool"]
-}
-```
-
-Aturannya: `id` harus unik, dan `facilities` hanya berisi `Gym`, `SPA`, atau `Pool`. Ambil koordinat dari Google Maps dengan klik kanan pada lokasi gym.
 
 ## Rencana tahap demi tahap
 
 Ini rencana, bukan janji. Tahap dikerjakan berurutan. Tahap berikutnya dimulai setelah tahap sebelumnya stabil.
 
+### Sudah selesai
+
+1. Pesan error mentah disembunyikan dari pengguna.
+2. Pembatasan request per IP.
+3. Pencarian gym lewat Grounding with Google Maps, menggantikan data gym manual.
+
 ### Tahap 1: Membuat prototipe bisa dipercaya
 
-1. Simpan booking di database, supaya data tidak hilang saat restart.
-2. Cek jam buka dan bentrok jadwal saat booking.
-3. Sembunyikan pesan error mentah dari pengguna.
-4. Batasi jumlah request per pengguna.
-5. Tambah pengujian untuk pencarian, jarak, dan booking.
+1. Tambah pengujian untuk validasi input, pembatasan request, dan bentuk respons.
+2. Bersihkan kode frontend sisa fitur booking dan kartu fasilitas.
+3. Atur `trust proxy` untuk deploy di belakang proxy.
+4. Simpan riwayat percakapan, jika dibutuhkan.
 
-### Tahap 2: Peta dan gym terdekat
+### Tahap 2: Peta di antarmuka
 
-Lihat bagian "Peta dan gym terdekat".
+1. Tampilkan gym sebagai penanda di peta, lengkap dengan jarak.
+2. Tambah tombol arah ke lokasi lewat aplikasi peta.
+3. Pilih cara menampilkan peta sebelum tahap ini mulai: Google Maps Platform atau OpenStreetMap dengan Leaflet.
 
 ### Tahap 3: Pola makan dan gizi
 
@@ -312,15 +274,15 @@ Mulai dari profil pengguna dan kebutuhan kalori harian. Lalu catatan makan, cata
 
 ### Tahap 6: Jika project berlanjut
 
-1. Kerja sama dengan gym untuk konfirmasi booking dan harga resmi.
+1. Kerja sama dengan gym untuk booking, konfirmasi, dan harga resmi.
 2. Aplikasi mobile dengan sinkron Apple Health atau Health Connect.
-3. Input suara dan lampiran foto makanan, sesuai ikon di desain.
+3. Lampiran foto makanan yang dianalisis.
 4. Deploy ke server publik.
 
 ## Teknologi
 
 1. Node.js dan Express 5
-2. Google Gemini lewat SDK `@google/genai`
+2. Google Gemini lewat SDK `@google/genai`, dengan alat Grounding with Google Maps
 3. HTML, CSS, dan JavaScript untuk antarmuka
 4. Postman untuk pengujian API
-5. Rencana: layanan peta (Google Maps Platform atau OpenStreetMap dengan Leaflet) dan database. Keduanya belum dipilih.
+5. Rencana: peta di antarmuka (Google Maps Platform atau OpenStreetMap dengan Leaflet) dan database. Keduanya belum dipilih.
