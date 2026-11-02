@@ -502,7 +502,7 @@ async function handleUserSubmit(userText) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      const errorMessage = response.status === 429
+      const errorMessage = response.status === 429 && errorData.code !== 'RATE_LIMITED'
         ? 'Kuota layanan AI sedang habis. Silakan coba lagi beberapa saat lagi.'
         : errorData.error || 'Terjadi kesalahan. Silakan coba lagi.';
       throw new Error(errorMessage);

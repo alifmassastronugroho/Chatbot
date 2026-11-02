@@ -15,13 +15,48 @@ const bookings = [];
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
 const PORT = process.env.PORT || 3000;
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
 const MAX_HISTORY = 20;
 const MAX_STEPS = 3;
+const MAX_MESSAGE_LENGTH = 4000;
+const CHAT_RATE_LIMIT = 10;
+const CHAT_RATE_LIMIT_WINDOW_MS = 60 * 1000;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: (origin, callback) => callback(null, Boolean(CLIENT_ORIGIN && origin === CLIENT_ORIGIN))
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const chatRequestsByIp = new Map();
+const rateLimitCleanup = setInterval(() => {
+    const now = Date.now();
+    for (const [ip, entry] of chatRequestsByIp) {
+        if (entry.resetAt <= now) chatRequestsByIp.delete(ip);
+    }
+}, CHAT_RATE_LIMIT_WINDOW_MS);
+rateLimitCleanup.unref();
+
+function limitChatRequests(req, res, next) {
+    const now = Date.now();
+    let entry = chatRequestsByIp.get(req.ip);
+    if (!entry || entry.resetAt <= now) {
+        entry = { count: 0, resetAt: now + CHAT_RATE_LIMIT_WINDOW_MS };
+        chatRequestsByIp.set(req.ip, entry);
+    }
+
+    if (entry.count >= CHAT_RATE_LIMIT) {
+        res.set('Retry-After', String(Math.ceil((entry.resetAt - now) / 1000)));
+        return res.status(429).json({
+            error: 'Terlalu banyak permintaan. Silakan coba lagi nanti.',
+            code: 'RATE_LIMITED'
+        });
+    }
+
+    entry.count += 1;
+    next();
+}
 
 const tools = [{
     functionDeclarations: [
@@ -121,6 +156,9 @@ function validate(body) {
     if (conversation[conversation.length - 1].role !== 'user') {
         throw new HttpError(400, 'Pesan terakhir harus dari user');
     }
+    if (conversation[conversation.length - 1].text.length > MAX_MESSAGE_LENGTH) {
+        throw new HttpError(400, `Pesan tidak boleh lebih dari ${MAX_MESSAGE_LENGTH} karakter`);
+    }
     const hasLocation = typeof location?.lat === 'number' && typeof location?.lng === 'number';
     return {
         conversation: conversation.slice(-MAX_HISTORY),
@@ -133,7 +171,7 @@ app.get('/api/facilities', (req, res) => res.json(facilities));
 
 app.get('/api/bookings', (req, res) => res.json(bookings));
 
-app.post('/api/chat', async (req, res) => {
+app.post('/api/chat', limitChatRequests, async (req, res) => {
     try {
         const { conversation, location, shownIds } = validate(req.body);
         const ctx = { location, shownIds, cards: [] };
