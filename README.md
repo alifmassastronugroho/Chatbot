@@ -19,7 +19,7 @@ Orang yang ingin mulai berolahraga sering berhenti di langkah awal. Mereka tidak
 
 ## Fitur
 
-### Sudah ada
+### Fitur sekarang
 
 1. Antarmuka chat dengan mode terang dan gelap, untuk layar mobile dan desktop.
 2. Server Express dengan satu endpoint chat.
