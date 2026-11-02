@@ -244,7 +244,7 @@ function renderSelectedAttachments() {
   }
 }
 
-function appendBotMessage(markdownText) {
+function appendBotMessage(markdownText, sources = []) {
   const row = document.createElement('div');
   row.className = 'message-row bot';
 
@@ -263,6 +263,33 @@ function appendBotMessage(markdownText) {
   const bubble = document.createElement('div');
   bubble.className = 'message-bubble';
   renderMarkdown(bubble, markdownText);
+  if (Array.isArray(sources) && sources.length > 0) {
+    const sourceList = document.createElement('div');
+    sourceList.className = 'grounding-sources';
+    const sourceLabel = document.createElement('span');
+    sourceLabel.textContent = 'Sumber Google Maps';
+    sourceList.appendChild(sourceLabel);
+
+    sources.forEach((source) => {
+      if (typeof source?.title !== 'string' || typeof source?.url !== 'string') return;
+      let url;
+      try {
+        url = new URL(source.url);
+      } catch {
+        return;
+      }
+      if (url.protocol !== 'https:') return;
+
+      const link = document.createElement('a');
+      link.href = url.href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = source.title;
+      sourceList.appendChild(link);
+    });
+
+    if (sourceList.childElementCount > 1) bubble.appendChild(sourceList);
+  }
 
   group.appendChild(bubble);
   row.appendChild(avatar);
@@ -514,12 +541,15 @@ async function handleUserSubmit(userText) {
     const botReply = data.result || data.reply || '';
 
     if (botReply.trim()) {
-      appendBotMessage(botReply);
+      appendBotMessage(botReply, data.sources);
       conversation.push(
         { role: 'user', text: message },
         { role: 'model', text: botReply }
       );
     } else {
+      if (Array.isArray(data.sources) && data.sources.length > 0) {
+        appendBotMessage('', data.sources);
+      }
       conversation.push({ role: 'user', text: message });
     }
 
