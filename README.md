@@ -324,7 +324,3 @@ Mulai dari profil pengguna dan kebutuhan kalori harian. Lalu catatan makan, cata
 3. HTML, CSS, dan JavaScript untuk antarmuka
 4. Postman untuk pengujian API
 5. Rencana: layanan peta (Google Maps Platform atau OpenStreetMap dengan Leaflet) dan database. Keduanya belum dipilih.
-
-## Lisensi
-
-Belum ditentukan. Tambahkan file LICENSE sebelum project dibagikan untuk dipakai orang lain.
