@@ -193,16 +193,12 @@ app.post('/api/chat', async (req, res) => {
         });
     } catch (e) {
         const status = e.status === 400 ? 400 : e.status === 429 ? 429 : 500;
-        if (status === 429) {
-            console.warn(`Gemini quota or rate limit reached for model ${GEMINI_MODEL}`);
-        } else if (status === 500) {
-            console.error(e);
-        }
+        console.error(`Chat request failed with status ${status}:`, e);
         res.status(status).json({
             error: status === 400
-                ? e.message
+                ? 'Permintaan tidak valid. Periksa pesan Anda dan coba lagi.'
                 : status === 429
-                    ? 'Kuota atau batas permintaan Gemini tercapai. Silakan coba lagi nanti.'
+                    ? 'Layanan AI sedang mencapai batas penggunaan. Silakan coba lagi nanti.'
                     : 'Terjadi kesalahan di server'
         });
     }
