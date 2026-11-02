@@ -502,7 +502,10 @@ async function handleUserSubmit(userText) {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Server memberikan respons ${response.status}`);
+      const errorMessage = response.status === 429
+        ? 'Kuota layanan AI sedang habis. Silakan coba lagi beberapa saat lagi.'
+        : errorData.error || 'Terjadi kesalahan. Silakan coba lagi.';
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
